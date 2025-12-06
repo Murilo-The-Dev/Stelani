@@ -26,18 +26,22 @@ func main() {
 		&entities.ProductImage{},
 		&entities.Order{},
 		&entities.OrderItem{},
+		&entities.CustomOrder{},
 	)
 	
 	log.Println("Database migration completed")
 	
 	// Initialize repositories
 	userRepo := database.NewUserRepository(db)
+	productRepo := database.NewProductRepository(db)
 	
 	// Initialize services
 	authService := services.NewAuthService(userRepo, cfg.JWTSecret)
+	productService := services.NewProductService(productRepo)
 	
 	// Initialize handlers
 	authHandler := handlers.NewAuthHandler(authService)
+	productHandler := handlers.NewProductHandler(productService)
 	
 	// Setup Gin
 	router := gin.Default()
@@ -52,10 +56,11 @@ func main() {
 	}))
 	
 	// Setup routes
-	routes.SetupRoutes(router, authHandler, authService)
+	routes.SetupRoutes(router, authHandler, productHandler, authService)
 	
 	// Start server
 	log.Printf("Server starting on port %s", cfg.ServerPort)
+	log.Printf("WhatsApp configured: %s", cfg.WhatsAppNumber)
 	if err := router.Run(":" + cfg.ServerPort); err != nil {
 		log.Fatal("Failed to start server:", err)
 	}

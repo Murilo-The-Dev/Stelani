@@ -10,29 +10,34 @@ import (
 func SetupRoutes(
 	router *gin.Engine,
 	authHandler *handlers.AuthHandler,
+	productHandler *handlers.ProductHandler,
 	authService *services.AuthService,
 ) {
 	v1 := router.Group("/api/v1")
 	
-	// Public routes
-	auth := v1.Group("/auth")
+	// Admin auth routes
+	auth := v1.Group("/admin/auth")
 	{
-		auth.POST("/register", authHandler.Register)
 		auth.POST("/login", authHandler.Login)
 	}
 	
-	// Protected routes (adicionar depois)
-	protected := v1.Group("")
-	protected.Use(middlewares.AuthMiddleware(authService))
+	// Public product routes
+	products := v1.Group("/products")
 	{
-		// Cart, orders, etc (fase 2)
+		products.GET("", productHandler.List)
+		products.GET("/:id", productHandler.GetByID)
 	}
 	
-	// Admin routes (adicionar depois)
+	// Admin routes (protected)
 	admin := v1.Group("/admin")
 	admin.Use(middlewares.AuthMiddleware(authService))
-	admin.Use(middlewares.AdminOnly())
 	{
-		// Products CRUD (fase 2)
+		// Products management
+		adminProducts := admin.Group("/products")
+		{
+			adminProducts.POST("", productHandler.Create)
+			adminProducts.PUT("/:id", productHandler.Update)
+			adminProducts.DELETE("/:id", productHandler.Delete)
+		}
 	}
 }
