@@ -9,23 +9,22 @@ import (
 type OrderStatus string
 
 const (
-	StatusAguardandoPagamento OrderStatus = "aguardando_pagamento"
-	StatusPago                OrderStatus = "pago"
-	StatusEmProducao          OrderStatus = "em_producao"
-	StatusPronto              OrderStatus = "pronto"
-	StatusEnviado             OrderStatus = "enviado"
-	StatusEntregue            OrderStatus = "entregue"
-	StatusCancelado           OrderStatus = "cancelado"
+	StatusPendente  OrderStatus = "pendente"    // Aguardando contato via WhatsApp
+	StatusConfirmado OrderStatus = "confirmado" // Admin confirmou via WhatsApp
+	StatusEmProducao OrderStatus = "em_producao"
+	StatusPronto     OrderStatus = "pronto"
+	StatusEntregue   OrderStatus = "entregue"
+	StatusCancelado  OrderStatus = "cancelado"
 )
 
 type Order struct {
 	ID              uuid.UUID   `gorm:"type:uuid;primary_key"`
-	UserID          uuid.UUID   `gorm:"type:uuid;not null"`
-	User            User        `gorm:"foreignKey:UserID"`
-	Status          OrderStatus `gorm:"type:varchar(30);not null"`
+	CustomerName    string      `gorm:"not null"`           // Nome do cliente
+	CustomerPhone   string      `gorm:"not null"`           // Telefone
+	CustomerAddress string      `gorm:"type:text"`          // Endereço
+	Status          OrderStatus `gorm:"type:varchar(30);not null;default:'pendente'"`
 	TotalAmount     float64     `gorm:"not null"`
-	DeliveryAddress string      `gorm:"type:text"`
-	Notes           string      `gorm:"type:text"`
+	Notes           string      `gorm:"type:text"`          // Observações do cliente
 	Items           []OrderItem `gorm:"foreignKey:OrderID"`
 	CreatedAt       time.Time
 	UpdatedAt       time.Time

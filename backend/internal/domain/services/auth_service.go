@@ -44,7 +44,7 @@ func (s *AuthService) Register(email, password, name, phone string) (*entities.U
 	user := &entities.User{
 		Email:        email,
 		PasswordHash: string(hashedPassword),
-		Role:         entities.RoleCustomer,
+		Role:         entities.RoleAdmin,
 		Name:         name,
 		Phone:        phone,
 	}
