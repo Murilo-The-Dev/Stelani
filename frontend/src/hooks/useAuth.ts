@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '@/services/api/endpoints/auth';
 import { useAuthStore } from '@/store/authStore';
-import { LoginRequest, RegisterRequest } from '@/types/api/user.types';
+import { LoginRequest, RegisterRequest } from '@/services/api/user.types';
 
 export const useAuth = () => {
   const navigate = useNavigate();
