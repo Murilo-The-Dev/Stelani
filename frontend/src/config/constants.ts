@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = '5519999610275';
+export const WHATSAPP_NUMBER = '5519997857685';
 
 export const formatWhatsAppMessage = (
   customerName: string,

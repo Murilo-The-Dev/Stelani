@@ -11,8 +11,11 @@ export const useAuth = () => {
   const loginMutation = useMutation({
     mutationFn: (data: LoginRequest) => authService.login(data),
     onSuccess: (response) => {
+      console.log('LOGIN SUCCESS - Redirecting to /admin'); // <<< DEBUG
+      console.log('Response:', response); // <<< DEBUG
       setAuth(response.token, response.user);
-      navigate('/');
+      navigate('/admin');
+      console.log('Navigate called'); // <<< DEBUG
     },
   });
   
@@ -20,13 +23,13 @@ export const useAuth = () => {
     mutationFn: (data: RegisterRequest) => authService.register(data),
     onSuccess: (response) => {
       setAuth(response.token, response.user);
-      navigate('/');
+      navigate('/admin');
     },
   });
   
   const logout = () => {
     clearAuth();
-    navigate('/login');
+    navigate('/admin/login');
   };
   
   return {
