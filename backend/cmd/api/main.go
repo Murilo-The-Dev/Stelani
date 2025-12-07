@@ -2,14 +2,15 @@ package main
 
 import (
 	"log"
-	"github.com/gin-gonic/gin"
-	"github.com/gin-contrib/cors"
+
 	"github.com/Murilo-The-Dev/Stelani/backend/config"
-	"github.com/Murilo-The-Dev/Stelani/backend/internal/infrastructure/database"
 	"github.com/Murilo-The-Dev/Stelani/backend/internal/application/handlers"
-	"github.com/Murilo-The-Dev/Stelani/backend/internal/infrastructure/http/routes"
-	"github.com/Murilo-The-Dev/Stelani/backend/internal/domain/services"
 	"github.com/Murilo-The-Dev/Stelani/backend/internal/domain/entities"
+	"github.com/Murilo-The-Dev/Stelani/backend/internal/domain/services"
+	"github.com/Murilo-The-Dev/Stelani/backend/internal/infrastructure/database"
+	"github.com/Murilo-The-Dev/Stelani/backend/internal/infrastructure/http/routes"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {

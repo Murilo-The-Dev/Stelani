@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '@/components/common/Button';
 import { useAuth } from '@/hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login, isLoggingIn, loginError } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,12 +80,12 @@ export default function AdminLoginPage() {
         </form>
 
         <div className="text-center">
-          <button
-            onClick={() => navigate('/')}
+          <Link
+            to="/"
             className="text-sm text-primary hover:text-primary/90"
           >
             ← Voltar para o site
-          </button>
+          </Link>
         </div>
       </div>
     </div>
