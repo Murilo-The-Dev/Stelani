@@ -66,7 +66,7 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
         <div className="space-y-8">
           {/* Header */}
           <div className="text-center space-y-2">
-            <h1 className="text-4xl font-light text-foreground">
+            <h1 className="text-3xl sm:text-4xl font-light text-foreground">
               Encomendar Personalizada
             </h1>
             <p className="text-lg text-muted-foreground">
@@ -81,7 +81,7 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
           >
             {/* Personal Info */}
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-foreground">
+              <h2 className="text-lg sm:text-xl font-semibold text-foreground">
                 Informações Pessoais
               </h2>
 
@@ -96,7 +96,7 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="Seu nome"
                   />
                 </div>
@@ -111,7 +111,7 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="seu@email.com"
                   />
                 </div>
@@ -127,7 +127,7 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="(11) 99999-9999"
                 />
               </div>
@@ -135,7 +135,7 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
 
             {/* Design Options */}
             <div className="space-y-4 border-t border-border pt-6">
-              <h2 className="text-xl font-semibold text-foreground">
+              <h2 className="text-lg sm:text-xl font-semibold text-foreground">
                 Personalização
               </h2>
 
@@ -149,7 +149,7 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
                   value={formData.colors}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="Ex: rosa, roxo, branco"
                 />
               </div>
@@ -182,8 +182,8 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
                     onChange={handleChange}
                     min="1"
                     max="50"
-                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    />
                 </div>
               </div>
 
