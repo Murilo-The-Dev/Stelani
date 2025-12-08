@@ -5,6 +5,7 @@ import Button from '@/components/common/Button';
 import { useProduct } from '@/hooks/useProducts';
 import { productService } from '@/services/api/endpoints/products';
 import { ArrowLeft } from 'lucide-react';
+import ImageUpload from '@/components/common/ImageUpload';
 
 export default function AdminProductFormPage() {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +25,7 @@ export default function AdminProductFormPage() {
     depth: '',
     production_time_days: '',
     price: '',
-    image_urls: [''],
+    image_urls: [] as string[],
   });
 
   useEffect(() => {
@@ -66,26 +67,6 @@ export default function AdminProductFormPage() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageChange = (index: number, value: string) => {
-    const newImages = [...formData.image_urls];
-    newImages[index] = value;
-    setFormData((prev) => ({ ...prev, image_urls: newImages }));
-  };
-
-  const addImageField = () => {
-    setFormData((prev) => ({
-      ...prev,
-      image_urls: [...prev.image_urls, ''],
-    }));
-  };
-
-  const removeImageField = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      image_urls: prev.image_urls.filter((_, i) => i !== index),
-    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -291,35 +272,15 @@ export default function AdminProductFormPage() {
 
           {/* Images */}
           <div className="space-y-4 border-t border-gray-200 pt-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold text-gray-900">Imagens</h2>
-              <Button type="button" onClick={addImageField} size="sm">
-                + Adicionar Imagem
-              </Button>
-            </div>
-
-            <div className="space-y-3">
-              {formData.image_urls.map((url, index) => (
-                <div key={index} className="flex gap-2">
-                  <input
-                    type="url"
-                    value={url}
-                    onChange={(e) => handleImageChange(index, e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="https://exemplo.com/imagem.jpg"
-                  />
-                  {formData.image_urls.length > 1 && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => removeImageField(index)}
-                    >
-                      Remover
-                    </Button>
-                  )}
-                </div>
-              ))}
-            </div>
+            <h2 className="text-lg font-semibold text-gray-900">Imagens</h2>
+  
+            <ImageUpload
+            images={formData.image_urls}
+            onImagesChange={(images) => 
+            setFormData((prev) => ({ ...prev, image_urls: images }))
+            }
+          maxImages={6}
+          />
           </div>
 
           {/* Submit */}
