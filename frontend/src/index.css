@@ -4,48 +4,63 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Tons pastel bebê + lilás */
+    --background: 0 0% 98%;
+    --foreground: 280 15% 25%;
+    
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 280 15% 25%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 330 81% 60%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 290 70% 65%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 330 81% 60%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 330 81% 60%;
-    --radius: 0.5rem;
+    --popover-foreground: 280 15% 25%;
+    
+    /* Lilás suave como primary */
+    --primary: 280 60% 75%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Rosa bebê como secondary */
+    --secondary: 340 80% 85%;
+    --secondary-foreground: 280 15% 25%;
+    
+    /* Fundo lilás bem clarinho */
+    --muted: 280 30% 96%;
+    --muted-foreground: 280 20% 50%;
+    
+    /* Accent rosa pastel */
+    --accent: 350 70% 88%;
+    --accent-foreground: 280 15% 25%;
+    
+    --destructive: 0 70% 70%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Bordas lilás clarinhas */
+    --border: 280 30% 92%;
+    --input: 280 30% 94%;
+    --ring: 280 60% 75%;
+    
+    --radius: 1rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 330 81% 60%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 290 70% 65%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 330 81% 60%;
+    --background: 280 20% 12%;
+    --foreground: 280 10% 95%;
+    --card: 280 20% 15%;
+    --card-foreground: 280 10% 95%;
+    --popover: 280 20% 15%;
+    --popover-foreground: 280 10% 95%;
+    --primary: 280 60% 75%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 340 60% 70%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 280 20% 20%;
+    --muted-foreground: 280 15% 70%;
+    --accent: 350 60% 70%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 60% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 280 20% 25%;
+    --input: 280 20% 25%;
+    --ring: 280 60% 75%;
   }
 }
 
@@ -53,7 +68,45 @@
   * {
     @apply border-border;
   }
+  
   body {
     @apply bg-background text-foreground;
+    font-family: 'Nunito', 'Inter', system-ui, -apple-system, sans-serif;
   }
+  
+  /* Scrollbar fofa */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/80;
+  }
+}
+
+/* Animações fofas */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
 }

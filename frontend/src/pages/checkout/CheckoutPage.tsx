@@ -167,8 +167,8 @@ export default function CheckoutPage() {
             <Button
               type="submit"
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base"
-            >
-              📱 Enviar Pedido via WhatsApp
+              >
+              Enviar Pedido via WhatsApp
             </Button>
           </form>
         </div>
