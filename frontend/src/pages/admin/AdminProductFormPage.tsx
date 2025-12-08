@@ -320,11 +320,6 @@ export default function AdminProductFormPage() {
                 </div>
               ))}
             </div>
-
-            <p className="text-sm text-gray-500">
-              💡 Dica: Use serviços como Imgur, Cloudinary ou hospede as imagens
-              em um servidor próprio. Cole a URL completa da imagem.
-            </p>
           </div>
 
           {/* Submit */}
