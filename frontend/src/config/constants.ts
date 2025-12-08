@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = '5519999610275';
+export const WHATSAPP_NUMBER = '5519997857685';
 
 export const formatWhatsAppMessage = (
   customerName: string,
@@ -13,15 +13,14 @@ export const formatWhatsAppMessage = (
     .join('\n');
 
   const message = `Olá! Sou *${customerName}*
-📱 ${customerPhone}
-📍 Endereço: ${customerAddress}
+  Telefone: ${customerPhone}
+  Endereço: ${customerAddress}
 
-🛍️ Meu pedido:
-${itemsList}
+  Meu pedido:
+  ${itemsList}
+  Total: R$ ${total.toFixed(2)}
 
-💰 *Total: R$ ${total.toFixed(2)}*
-
-${notes ? `📝 Observações: ${notes}` : ''}`;
+  ${notes ? `Observações: ${notes}` : ''}`;
 
   return encodeURIComponent(message);
 };

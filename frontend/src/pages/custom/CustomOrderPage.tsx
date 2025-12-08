@@ -39,19 +39,19 @@ export default function CustomOrderPage() {
     };
 
     const customMessage = `Olá! Sou *${formData.name}*
-📱 ${formData.phone}
-📧 ${formData.email}
+Telefone: ${formData.phone}
+Email: ${formData.email}
 
-🎨 *ENCOMENDA PERSONALIZADA*
+ENCOMENDA PERSONALIZADA
 
-🎨 Cores desejadas: ${formData.colors}
-📏 Tamanho: ${sizeMap[formData.size as keyof typeof sizeMap]}
-🔢 Quantidade: ${formData.quantity}
+Cores desejadas: ${formData.colors}
+Tamanho: ${sizeMap[formData.size as keyof typeof sizeMap]}
+Quantidade: ${formData.quantity}
 
-📝 Descrição:
+Descrição:
 ${formData.description}
 
-💰 Preço Base Estimado: R$ ${(calculateBasePrice() * formData.quantity).toFixed(2)}
+Preço Base Estimado: R$ ${(calculateBasePrice() * formData.quantity).toFixed(2)}
 ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' : ''}`;
 
     openWhatsApp(encodeURIComponent(customMessage));
@@ -221,7 +221,7 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
                 type="submit"
                 className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground text-base py-6"
               >
-                📱 Enviar Encomenda via WhatsApp
+                Enviar Encomenda via WhatsApp
               </Button>
             </div>
           </form>
