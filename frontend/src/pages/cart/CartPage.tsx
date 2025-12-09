@@ -43,60 +43,65 @@ export default function CartPage() {
               </h1>
 
               {items.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex gap-4 bg-card border border-border rounded-lg p-4"
-                >
-                  {/* Image */}
-                  <div className="relative w-24 h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+  <div
+    key={item.id}
+    className="flex flex-col sm:flex-row gap-4 bg-card border border-border rounded-lg p-4"
+  >
+    {/* Image */}
+    <div className="relative w-full sm:w-24 h-32 sm:h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
+      <img
+        src={item.image}
+        alt={item.name}
+        className="w-full h-full object-cover"
+      />
+    </div>
 
-                  {/* Details */}
-                  <div className="flex-1 flex flex-col gap-2">
-                    <h3 className="font-semibold text-foreground">{item.name}</h3>
-                    <p className="text-primary font-semibold">
-                      R$ {item.price.toFixed(2)}
-                    </p>
+    {/* Details - Mobile/Desktop */}
+    <div className="flex-1 flex flex-col sm:flex-row gap-3 sm:gap-4">
+      {/* Info */}
+      <div className="flex-1 flex flex-col gap-2">
+        <h3 className="font-semibold text-foreground text-base sm:text-lg">
+          {item.name}
+        </h3>
+        <p className="text-primary font-semibold text-lg sm:text-base">
+          R$ {item.price.toFixed(2)}
+        </p>
 
-                    {/* Quantity Controls */}
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="p-1 text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        <Minus className="w-4 h-4" />
-                      </button>
-                      <span className="px-3 py-1 bg-muted rounded text-foreground font-semibold min-w-12 text-center">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="p-1 text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
+        {/* Quantity Controls */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+            className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted"
+          >
+            <Minus className="w-4 h-4" />
+          </button>
+          <span className="px-4 py-2 bg-muted rounded-lg text-foreground font-semibold min-w-16 text-center">
+            {item.quantity}
+          </span>
+          <button
+            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+            className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted"
+          >
+            <Plus className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
 
-                  {/* Total & Remove */}
-                  <div className="flex flex-col items-end justify-between">
-                    <p className="font-semibold text-foreground">
-                      R$ {(item.price * item.quantity).toFixed(2)}
-                    </p>
-                    <button
-                      onClick={() => removeItem(item.id)}
-                      className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
+      {/* Total & Remove */}
+      <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-between">
+        <p className="font-semibold text-foreground text-lg">
+          R$ {(item.price * item.quantity).toFixed(2)}
+        </p>
+        <button
+          onClick={() => removeItem(item.id)}
+          className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+        >
+          <Trash2 className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  </div>
+))}
             </div>
 
             {/* Summary */}

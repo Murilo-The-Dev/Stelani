@@ -53,126 +53,130 @@ export default function CheckoutPage() {
     <main className="min-h-screen bg-background flex flex-col">
       <Header />
 
-      <div className="flex-1 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="space-y-8">
-          <div className="text-center space-y-2">
-            <h1 className="text-4xl font-light text-foreground">Finalizar Pedido</h1>
-            <p className="text-lg text-muted-foreground">
-              Preencha seus dados para enviar o pedido via WhatsApp
-            </p>
-          </div>
+      <div className="flex-1 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16">
+  <div className="space-y-6 sm:space-y-8">
+    <div className="text-center space-y-2">
+      <h1 className="text-3xl sm:text-4xl font-light text-foreground">
+        Finalizar Pedido
+      </h1>
+      <p className="text-base sm:text-lg text-muted-foreground">
+        Preencha seus dados para enviar o pedido via WhatsApp
+      </p>
+    </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="bg-card rounded-lg border border-border p-6 space-y-4">
-              <h2 className="text-xl font-semibold text-foreground">
-                Informações de Contato
-              </h2>
+    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+      <div className="bg-card rounded-lg border border-border p-4 sm:p-6 space-y-4">
+        <h2 className="text-lg sm:text-xl font-semibold text-foreground">
+          Informações de Contato
+        </h2>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-foreground">
-                  Nome Completo *
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Seu nome"
-                />
-              </div>
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-foreground">
+            Nome Completo *
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Seu nome"
+          />
+        </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-foreground">
-                  Telefone (WhatsApp) *
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="(11) 99999-9999"
-                />
-              </div>
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-foreground">
+            Telefone (WhatsApp) *
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="(11) 99999-9999"
+          />
+        </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-foreground">
-                  Endereço de Entrega *
-                </label>
-                <textarea
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  required
-                  rows={3}
-                  className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                  placeholder="Rua, número, bairro, cidade, CEP"
-                />
-              </div>
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-foreground">
+            Endereço de Entrega *
+          </label>
+          <textarea
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+            rows={3}
+            className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            placeholder="Rua, número, bairro, cidade, CEP"
+          />
+        </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-foreground">
-                  Observações
-                </label>
-                <textarea
-                  name="notes"
-                  value={formData.notes}
-                  onChange={handleChange}
-                  rows={3}
-                  className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                  placeholder="Informações adicionais sobre a entrega"
-                />
-              </div>
-            </div>
-
-            {/* Order Summary */}
-            <div className="bg-card rounded-lg border border-border p-6 space-y-4">
-              <h2 className="text-xl font-semibold text-foreground">
-                Resumo do Pedido
-              </h2>
-
-              <div className="space-y-2">
-                {items.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex justify-between text-muted-foreground"
-                  >
-                    <span>
-                      {item.name} ({item.quantity}x)
-                    </span>
-                    <span>R$ {(item.price * item.quantity).toFixed(2)}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-t border-border pt-4">
-                <div className="flex justify-between text-lg font-semibold text-foreground">
-                  <span>Total</span>
-                  <span className="text-primary">
-                    R$ {getTotalPrice().toFixed(2)}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-primary/5 rounded-lg p-6 border border-primary/20">
-              <p className="text-sm text-foreground">
-                ℹ️ Ao clicar em "Enviar Pedido via WhatsApp", você será redirecionado para o WhatsApp com os detalhes do seu pedido preenchidos. A vendedora entrará em contato para confirmar pagamento e entrega.
-              </p>
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base"
-              >
-              Enviar Pedido via WhatsApp
-            </Button>
-          </form>
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-foreground">
+            Observações
+          </label>
+          <textarea
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            rows={3}
+            className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            placeholder="Informações adicionais sobre a entrega"
+          />
         </div>
       </div>
+
+      {/* Order Summary */}
+      <div className="bg-card rounded-lg border border-border p-4 sm:p-6 space-y-4">
+        <h2 className="text-lg sm:text-xl font-semibold text-foreground">
+          Resumo do Pedido
+        </h2>
+
+        <div className="space-y-2">
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className="flex justify-between text-sm sm:text-base text-muted-foreground"
+            >
+              <span className="flex-1">
+                {item.name} ({item.quantity}x)
+              </span>
+              <span className="font-medium">
+                R$ {(item.price * item.quantity).toFixed(2)}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="border-t border-border pt-4">
+          <div className="flex justify-between text-base sm:text-lg font-semibold text-foreground">
+            <span>Total</span>
+            <span className="text-primary text-xl sm:text-2xl">
+              R$ {getTotalPrice().toFixed(2)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-primary/5 rounded-lg p-4 sm:p-6 border border-primary/20">
+        <p className="text-xs sm:text-sm text-foreground">
+          ℹ️ Ao clicar em "Enviar Pedido via WhatsApp", você será redirecionado para o WhatsApp com os detalhes do seu pedido preenchidos. A vendedora entrará em contato para confirmar pagamento e entrega.
+        </p>
+      </div>
+
+      <Button
+        type="submit"
+        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-5 sm:py-6 text-base sm:text-lg rounded-full"
+      >
+        Enviar Pedido via WhatsApp
+      </Button>
+    </form>
+  </div>
+</div>
 
       <Footer />
     </main>
