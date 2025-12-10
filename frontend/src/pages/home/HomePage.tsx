@@ -61,18 +61,17 @@ export default function HomePage() {
       </div>
     </div>
 
-    <div className="relative order-first lg:order-last">
-      <div className="aspect-square bg-gradient-to-br from-purple-200 via-pink-100 to-purple-100 rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-2xl overflow-hidden animate-float">
-        <div className="text-center p-6 sm:p-8">
-          <Sparkles className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mx-auto mb-3 sm:mb-4 text-purple-400 animate-pulse-soft" />
-          <p className="text-lg sm:text-xl font-semibold text-purple-600">Sua bolsa ideal aqui!</p>
-          <p className="text-xs sm:text-sm text-purple-400 mt-2">Exclusividade garantida</p>
-        </div>
-      </div>
-      {/* Decorative elements - ocultos em mobile */}
-      <div className="hidden sm:block absolute -top-4 -right-4 w-24 h-24 bg-pink-300 rounded-full blur-3xl opacity-50 animate-pulse"></div>
-      <div className="hidden sm:block absolute -bottom-4 -left-4 w-32 h-32 bg-purple-300 rounded-full blur-3xl opacity-50 animate-pulse"></div>
-    </div>
+    <div className="aspect-square bg-gradient-to-br from-purple-200 via-pink-100 to-purple-100 rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-2xl overflow-hidden animate-float">
+  <div className="text-center p-6 sm:p-8">
+    <img 
+  src="/images/logo.png" 
+  alt="Stelani Logo" 
+  className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 mx-auto mb-3 sm:mb-4 object-contain animate-pulse-soft"
+/>
+    <p className="text-lg sm:text-xl font-semibold text-purple-600">Sua bolsa ideal aqui!</p>
+    <p className="text-xs sm:text-sm text-purple-400 mt-2">Exclusividade garantida</p>
+  </div>
+</div>
   </div>
 </section>
 

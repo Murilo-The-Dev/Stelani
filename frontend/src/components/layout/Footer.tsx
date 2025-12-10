@@ -7,9 +7,13 @@ return (
 <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-3">
 <div className="text-center md:text-left">
 <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
-<div className="w-6 h-6 sm:w-7 sm:h-7 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full flex items-center justify-center">
-<Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
-</div>
+<div className="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+      <img 
+        src="/images/logo.png" 
+        alt="Stelani Logo" 
+        className="w-full h-full object-contain"
+      />
+    </div>
 <p className="font-bold text-lg bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
 Stelani_LM
 </p>
