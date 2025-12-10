@@ -4,7 +4,7 @@ import { Upload, X, Image as ImageIcon } from 'lucide-react';
 
 interface ImageUploadProps {
   images: string[];
-  onImagesChange: (images: string[]) => void;
+  onImagesChange: (images: string[] | ((prev: string[]) => string[])) => void;
   maxImages?: number;
 }
 
@@ -19,7 +19,7 @@ export default function ImageUpload({
   const UPLOAD_PRESET = 'stelani_products';
 
   const openUploadWidget = () => {
-    setUploading(true);
+  setUploading(true);
 
     // @ts-ignore
     const widget = window.cloudinary.createUploadWidget(

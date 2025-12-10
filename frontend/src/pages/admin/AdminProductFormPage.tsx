@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Button from '@/components/common/Button';
@@ -14,6 +14,8 @@ export default function AdminProductFormPage() {
   const isEdit = !!id;
 
   const { data: product } = useProduct(id!);
+  
+  const initializedRef = useRef(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -29,7 +31,8 @@ export default function AdminProductFormPage() {
   });
 
   useEffect(() => {
-    if (product && isEdit) {
+    // Só roda UMA vez quando o product carregar pela primeira vez
+    if (product && isEdit && !initializedRef.current) {
       setFormData({
         name: product.name,
         description: product.description,
@@ -42,8 +45,9 @@ export default function AdminProductFormPage() {
         price: product.price.toString(),
         image_urls: product.images.map((img) => img.image_url),
       });
+      initializedRef.current = true;
     }
-  }, [product, isEdit]);
+  }, [product?.id, isEdit]); // Só depende do ID do produto
 
   const createMutation = useMutation({
     mutationFn: (data: any) => productService.create(data),
@@ -54,12 +58,12 @@ export default function AdminProductFormPage() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: any) => productService.update(id!, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
-      queryClient.invalidateQueries({ queryKey: ['product', id] });
-      navigate('/admin/products');
-    },
+  mutationFn: (data: any) => productService.update(id!, data),
+  onSuccess: async () => {
+    await queryClient.refetchQueries({ queryKey: ['products'] });
+    await queryClient.refetchQueries({ queryKey: ['product', id] });
+    navigate('/admin/products');
+  },
   });
 
   const handleChange = (
@@ -70,32 +74,37 @@ export default function AdminProductFormPage() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
+  
+  console.log('FormData image_urls BEFORE submit:', formData.image_urls);
+  console.log('Unique images:', [...new Set(formData.image_urls)]);
 
-    const payload = {
-      name: formData.name,
-      description: formData.description,
-      category: formData.category,
-      format: formData.format,
-      height: formData.height ? parseFloat(formData.height) : undefined,
-      width: formData.width ? parseFloat(formData.width) : undefined,
-      depth: formData.depth ? parseFloat(formData.depth) : undefined,
-      production_time_days: formData.production_time_days
-        ? parseInt(formData.production_time_days)
-        : undefined,
-      price: parseFloat(formData.price),
-      image_urls: formData.image_urls.filter((url) => url.trim() !== ''),
-    };
-
-    if (isEdit) {
-      updateMutation.mutate(payload);
-    } else {
-      createMutation.mutate(payload);
-    }
+  const payload = {
+    name: formData.name,
+    description: formData.description,
+    category: formData.category,
+    format: formData.format,
+    height: formData.height ? parseFloat(formData.height) : undefined,
+    width: formData.width ? parseFloat(formData.width) : undefined,
+    depth: formData.depth ? parseFloat(formData.depth) : undefined,
+    production_time_days: formData.production_time_days
+      ? parseInt(formData.production_time_days)
+      : undefined,
+    price: parseFloat(formData.price),
+    image_urls: [...new Set(formData.image_urls)].filter((url) => url.trim() !== ''), // Remove duplicatas
   };
 
+  console.log('Payload image_urls AFTER dedup:', payload.image_urls);
+
+  if (isEdit) {
+    updateMutation.mutate(payload);
+  } else {
+    createMutation.mutate(payload);
+  }
+};
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="lilas min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -275,12 +284,15 @@ export default function AdminProductFormPage() {
             <h2 className="text-lg font-semibold text-gray-900">Imagens</h2>
   
             <ImageUpload
-            images={formData.image_urls}
-            onImagesChange={(images) => 
-            setFormData((prev) => ({ ...prev, image_urls: images }))
-            }
-          maxImages={6}
-          />
+              images={formData.image_urls}
+                onImagesChange={(updater) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    image_urls: typeof updater === 'function' ? updater(prev.image_urls) : updater
+                  }));
+                }}
+              maxImages={6}
+            />
           </div>
 
           {/* Submit */}

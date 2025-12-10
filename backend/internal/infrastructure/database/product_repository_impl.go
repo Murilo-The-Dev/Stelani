@@ -40,7 +40,29 @@ func (r *ProductRepositoryImpl) FindAll(category string) ([]entities.Product, er
 }
 
 func (r *ProductRepositoryImpl) Update(product *entities.Product) error {
-	return r.db.Save(product).Error
+	return r.db.Transaction(func(tx *gorm.DB) error {
+		// 1. Deleta todas as imagens antigas deste produto
+		if err := tx.Where("product_id = ?", product.ID).Delete(&entities.ProductImage{}).Error; err != nil {
+			return err
+		}
+		
+		// 2. Atualiza o produto (sem as imagens ainda)
+		if err := tx.Model(product).Omit("Images").Updates(product).Error; err != nil {
+			return err
+		}
+		
+		// 3. Cria as novas imagens
+		if len(product.Images) > 0 {
+			for i := range product.Images {
+				product.Images[i].ProductID = product.ID
+			}
+			if err := tx.Create(&product.Images).Error; err != nil {
+				return err
+			}
+		}
+		
+		return nil
+	})
 }
 
 func (r *ProductRepositoryImpl) Delete(id string) error {

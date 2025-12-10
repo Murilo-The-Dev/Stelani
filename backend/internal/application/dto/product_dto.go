@@ -22,10 +22,10 @@ type UpdateProductRequest struct {
 	Description        string   `json:"description"`
 	Category           string   `json:"category"`
 	Format             string   `json:"format"`
-	Height             float64  `json:"height"`
-	Width              float64  `json:"width"`
-	Depth              float64  `json:"depth"`
-	ProductionTimeDays int      `json:"production_time_days"`
+	Height             *float64 `json:"height"`
+	Width              *float64 `json:"width"`
+	Depth              *float64 `json:"depth"`
+	ProductionTimeDays *int     `json:"production_time_days"`
 	Price              float64  `json:"price"`
 	ImageURLs          []string `json:"image_urls"`
 }

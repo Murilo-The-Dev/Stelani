@@ -11,7 +11,7 @@ export default function HomePage() {
   const featuredProducts = products?.slice(0, 3) || [];
 
   return (
-    <main className="min-h-screen bg-background flex flex-col">
+    <main className="lilas min-h-screen bg-background flex flex-col">
       <Header />
 
 {/* Hero Section */}

@@ -100,7 +100,7 @@ func (h *ProductHandler) Update(c *gin.Context) {
 		return
 	}
 	
-	// Atualizar campos
+	// Atualizar campos básicos
 	if req.Name != "" {
 		product.Name = req.Name
 	}
@@ -110,9 +110,38 @@ func (h *ProductHandler) Update(c *gin.Context) {
 	if req.Category != "" {
 		product.Category = entities.ProductCategory(req.Category)
 	}
+	if req.Format != "" {
+		product.Format = req.Format
+	}
+	if req.Height != nil {
+		product.Height = *req.Height
+	}
+	if req.Width != nil {
+		product.Width = *req.Width
+	}
+	if req.Depth != nil {
+		product.Depth = *req.Depth
+	}
+	if req.ProductionTimeDays != nil {
+		product.ProductionTimeDays = *req.ProductionTimeDays
+	}
 	if req.Price > 0 {
 		product.Price = req.Price
 	}
+	
+	// CRÍTICO: Atualizar imagens
+	if req.ImageURLs != nil {
+	// Não limpa aqui - deixa o repository fazer isso na transação
+	newImages := []entities.ProductImage{}
+	for i, url := range req.ImageURLs {
+		newImages = append(newImages, entities.ProductImage{
+			ImageURL:     url,
+			DisplayOrder: i,
+			ProductID:    product.ID,
+		})
+	}
+	product.Images = newImages
+}
 	
 	if err := h.productService.UpdateProduct(product); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update product"})
