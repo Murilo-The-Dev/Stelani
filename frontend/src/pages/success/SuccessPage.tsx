@@ -5,7 +5,7 @@ import Button from '@/components/common/Button';
 
 export default function SuccessPage() {
   return (
-    <main className="min-h-screen bg-background flex flex-col">
+    <main className="lilas min-h-screen bg-background flex flex-col">
       <Header />
 
       <div className="flex-1 flex items-center justify-center px-4 py-16">

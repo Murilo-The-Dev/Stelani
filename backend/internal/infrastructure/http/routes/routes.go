@@ -11,6 +11,7 @@ func SetupRoutes(
 	router *gin.Engine,
 	authHandler *handlers.AuthHandler,
 	productHandler *handlers.ProductHandler,
+	statsHandler *handlers.StatsHandler,
 	authService *services.AuthService,
 ) {
 	v1 := router.Group("/api/v1")
@@ -32,6 +33,9 @@ func SetupRoutes(
 	admin := v1.Group("/admin")
 	admin.Use(middlewares.AuthMiddleware(authService))
 	{
+		// Stats
+		admin.GET("/stats", statsHandler.GetDashboardStats)
+		
 		// Products management
 		adminProducts := admin.Group("/products")
 		{

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Button from '@/components/common/Button';
-import { formatWhatsAppMessage, openWhatsApp } from '@/config/constants';
+import {openWhatsApp } from '@/config/constants';
 
 export default function CustomOrderPage() {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
   };
 
   return (
-    <main className="min-h-screen bg-background flex flex-col">
+    <main className="lilas min-h-screen bg-background flex flex-col">
       <Header />
 
       <div className="flex-1 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
