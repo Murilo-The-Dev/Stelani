@@ -24,7 +24,7 @@ export default function AdminDashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Painel Admin</h1>
-            <p className="text-sm text-gray-600">Bem-vindo de volta, {user?.name}</p>
+            <p className="text-sm text-gray-600">Bem-vinda de volta, {user?.name}</p>
           </div>
           <Button onClick={logout} variant="outline" size="sm">
             <LogOut className="w-4 h-4 mr-2" />
