@@ -39,10 +39,12 @@ func main() {
 	// Initialize services
 	authService := services.NewAuthService(userRepo, cfg.JWTSecret)
 	productService := services.NewProductService(productRepo)
+	statsService := services.NewStatsService(productRepo)
 	
 	// Initialize handlers
 	authHandler := handlers.NewAuthHandler(authService)
 	productHandler := handlers.NewProductHandler(productService)
+	statsHandler := handlers.NewStatsHandler(statsService)
 	
 	// Setup Gin
 	router := gin.Default()
@@ -57,7 +59,7 @@ func main() {
 	}))
 	
 	// Setup routes
-	routes.SetupRoutes(router, authHandler, productHandler, authService)
+	routes.SetupRoutes(router, authHandler, productHandler, statsHandler, authService)
 	
 	// Start server
 	log.Printf("Server starting on port %s", cfg.ServerPort)
