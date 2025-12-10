@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Button from '@/components/common/Button';
-import { formatWhatsAppMessage, openWhatsApp } from '@/config/constants';
+import {openWhatsApp } from '@/config/constants';
 
 export default function CustomOrderPage() {
   const navigate = useNavigate();
