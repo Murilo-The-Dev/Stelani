@@ -14,6 +14,8 @@ STELANI provides a modular e-commerce environment supporting:
 - **Custom handmade order requests** via WhatsApp
 - **Full administrative CMS** for managing products, images, and prices
 - **Admin-only authentication** (customers browse anonymously)
+- **SEO optimized** with meta tags and Open Graph support
+- **Cloudinary integration** for optimized image delivery
 
 Designed for **scalability**, **maintainability**, and **clear separation of concerns** between API and UI layers.
 
@@ -32,14 +34,15 @@ Designed for **scalability**, **maintainability**, and **clear separation of con
 
 ### Frontend
 - **Build Tool:** Vite  
-- **Library:** React 18  
+- **Library:** React 19  
 - **Language:** TypeScript  
 - **Styling:** Tailwind CSS + shadcn/ui  
 - **State Management:** TanStack Query (server state) + Zustand (client state - cart, auth)  
-- **Forms:** React Hook Form + Zod  
 - **Routing:** React Router v6  
 - **HTTP Client:** Axios (with JWT interceptors)  
-- **Icons:** Lucide React  
+- **Icons:** Lucide React
+- **SEO:** react-helmet-async
+- **Image Optimization:** Cloudinary with automatic transformations
 
 ---
 
@@ -61,6 +64,8 @@ Designed for **scalability**, **maintainability**, and **clear separation of con
 [Backend API] Admin endpoints (CRUD products)
       ↓
 [PostgreSQL Database]
+
+[Cloudinary CDN] ← Image uploads & optimization
 ```
 
 ### Repository Structure
@@ -75,25 +80,25 @@ stelani/
 │   │   │   ├── repositories/      # Repository interfaces
 │   │   │   └── services/          # Business logic (AuthService, ProductService)
 │   │   ├── application/
-│   │   │   └── dto/               # Data Transfer Objects
+│   │   │   ├── dto/               # Data Transfer Objects
+│   │   │   └── handlers/          # HTTP request handlers
 │   │   └── infrastructure/
 │   │       ├── database/          # Repository implementations, PostgreSQL connection
 │   │       └── http/
-│   │           ├── handlers/      # HTTP request handlers
 │   │           ├── middlewares/   # JWT auth, CORS
 │   │           └── routes/        # API route definitions
 │   ├── config/                    # Configuration (DB, JWT, WhatsApp)
-│   └── migrations/                # Database migrations
+│   ├── railway.json               # Railway deployment config
+│   └── Procfile                   # Process definition for deployment
 └── frontend/
     ├── src/
     │   ├── components/
-    │   │   ├── common/           # Button, reusable UI
+    │   │   ├── common/           # Button, SEO, ImageUpload, reusable UI
     │   │   ├── layout/           # Header, Footer
     │   │   └── product/          # ProductCard
     │   ├── pages/
     │   │   ├── home/             # HomePage
-    │   │   ├── catalog/          # ProductsPage
-    │   │   ├── product/          # ProductDetailPage
+    │   │   ├── products/         # ProductsPage, ProductDetailPage
     │   │   ├── cart/             # CartPage
     │   │   ├── checkout/         # CheckoutPage (WhatsApp redirect)
     │   │   ├── custom/           # CustomOrderPage (WhatsApp redirect)
@@ -102,10 +107,11 @@ stelani/
     │   ├── services/api/         # Axios config, API endpoints
     │   ├── store/                # Zustand stores (cart, auth)
     │   ├── hooks/                # Custom React hooks (useAuth, useProducts)
-    │   ├── types/                # TypeScript interfaces
-    │   ├── utils/                # Utility functions
+    │   ├── utils/                # Utility functions (Cloudinary optimization)
     │   └── config/               # WhatsApp number, message formatter
-    └── public/
+    ├── public/
+    │   └── images/               # Static assets (logo, backgrounds)
+    └── index.html                # SEO meta tags, favicon
 ```
 
 Follows **Clean Architecture** for backend and **feature-based organization** for frontend.
@@ -121,13 +127,15 @@ Follows **Clean Architecture** for backend and **feature-based organization** fo
 - **Checkout via WhatsApp**: Fill form → Send order details via WhatsApp
 - **Custom orders via WhatsApp**: Request personalized bags with specifications
 - **No payment gateway**: All transactions handled via WhatsApp conversation
+- **Responsive design**: Optimized for mobile, tablet, and desktop
+- **Fast image loading**: Cloudinary CDN with automatic format optimization (WebP)
 
 ### Admin (Protected - JWT Authentication)
 - **Login-only access** to `/admin` routes
 - **Product management**: Full CRUD (Create, Read, Update, Delete)
-- **Image management**: Upload via URL (Imgur, Cloudinary, etc.)
+- **Image management**: Upload via Cloudinary widget (drag-and-drop, camera, URL)
 - **Price updates**: Edit product prices in real-time
-- **View orders**: See incoming orders (manual tracking)
+- **Multi-image support**: Up to 6 images per product
 - **CMS-style interface**: Intuitive admin dashboard
 
 ---
@@ -165,10 +173,23 @@ Follows **Clean Architecture** for backend and **feature-based organization** fo
 
 ### Custom Order Flow
 1. Customer navigates to `/custom`
-2. Fills form: colors, size, quantity, description
-3. Clicks "Send via WhatsApp"
-4. Opens WhatsApp with custom order details
-5. Admin responds with quote and timeline
+2. Fills form: colors, size (pequeno/medio/grande), quantity, description
+3. System calculates estimated price (with 10% discount for multiple units)
+4. Clicks "Send via WhatsApp"
+5. Opens WhatsApp with custom order details
+6. Admin responds with quote and timeline
+
+### Image Upload Flow
+1. Admin creates/edits product
+2. Clicks "Adicionar Imagem"
+3. Cloudinary widget opens (supports local files, camera, URL)
+4. Images uploaded directly to Cloudinary CDN
+5. URLs saved in database
+6. Frontend automatically optimizes images:
+   - Format: Auto (WebP when supported)
+   - Quality: Auto
+   - Max width: 800px
+   - Lazy loading enabled
 
 ---
 
@@ -177,25 +198,11 @@ Follows **Clean Architecture** for backend and **feature-based organization** fo
 - **bcrypt password hashing** (cost 12) for admin accounts
 - **JWT authentication** with 24h expiry (admin-only)
 - **HTTPS-only** communication (production)
-- **CORS protection** (only allows frontend origin)
-- **Rate limiting** (100 req/min/IP)
+- **CORS protection** (configurable allowed origins)
 - **Input validation** (Gin binding + Zod schemas)
 - **SQL injection prevention** (GORM prepared statements)
 - **No customer PII stored** (orders sent via WhatsApp)
-
----
-
-## 🧪 Testing
-
-### Backend
-- Unit tests for services and repositories
-- Integration tests for API endpoints
-- Coverage goal: ≥70%
-
-### Frontend
-- Component tests with React Testing Library
-- E2E tests for critical flows (cart, checkout)
-- Manual testing checklist (see documentation)
+- **Secure image uploads** (Cloudinary with preset validation)
 
 ---
 
@@ -206,6 +213,7 @@ Follows **Clean Architecture** for backend and **feature-based organization** fo
 - **Node.js 20.19+**
 - **PostgreSQL 14+**
 - **Git**
+- **Cloudinary Account** (free tier available)
 
 ### Backend Setup
 
@@ -225,7 +233,7 @@ cp .env.example .env
 # Create database: CREATE DATABASE stelani;
 
 # Run migrations (auto-migrate on startup)
-go run cmd/api/main.go
+go run main.go
 ```
 
 **Environment Variables (.env):**
@@ -237,7 +245,8 @@ DB_PASSWORD=your_password
 DB_NAME=stelani
 JWT_SECRET=your-super-secret-jwt-key-min-32-chars
 SERVER_PORT=8080
-WHATSAPP_NUMBER=5511999999999
+WHATSAPP_NUMBER=5519997857685
+FRONTEND_URL=http://localhost:5173
 ```
 
 ### Frontend Setup
@@ -261,40 +270,53 @@ npm run dev
 VITE_API_BASE_URL=http://localhost:8080/api/v1
 ```
 
-**Update WhatsApp Number:**
-Edit `frontend/src/config/constants.ts`:
+**Update Cloudinary Credentials:**
+Edit `frontend/src/components/common/ImageUpload.tsx`:
 ```typescript
-export const WHATSAPP_NUMBER = '5511999999999'; // Change to actual number
+const CLOUD_NAME = 'your_cloudinary_cloud_name';
+const UPLOAD_PRESET = 'your_upload_preset';
 ```
+
+### Cloudinary Setup
+
+1. Create free account at cloudinary.com
+2. Go to Settings → Upload → Upload presets
+3. Create new unsigned preset:
+   - Name: `stelani_products`
+   - Signing Mode: Unsigned
+   - Folder: `stelani/products`
+   - Allowed formats: jpg, png, webp
+   - Max file size: 5MB
+4. Copy Cloud Name and Preset Name to frontend config
 
 ### Create Admin User
 
-**Option 1: SQL (Recommended)**
+**Using the register endpoint:**
+```bash
+curl -X POST http://localhost:8080/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "stelani.loja@gmail.com",
+    "password": "Leticia2025",
+    "name": "Stelani Loja",
+    "phone": "19997857685"
+  }'
+```
+
+**Or via SQL:**
 ```sql
--- Password: admin123 (bcrypt hash)
+-- Password: Leticia2025 (needs bcrypt hash)
 INSERT INTO users (id, email, password_hash, role, name, phone, created_at, updated_at)
 VALUES (
     gen_random_uuid(),
-    'admin@stelani.com',
-    '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5oe2rN8Y6Lz4.',
+    'stelani.loja@gmail.com',
+    '$2a$12$[generated_hash]',
     'admin',
-    'Admin Stelani',
-    '11999999999',
+    'Stelani Loja',
+    '19997857685',
     NOW(),
     NOW()
 );
-```
-
-**Option 2: API Endpoint (Development Only)**
-```bash
-curl -X POST http://localhost:8080/api/v1/admin/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "admin@stelani.com",
-    "password": "your_password",
-    "name": "Admin Name",
-    "phone": "11999999999"
-  }'
 ```
 
 ### Access Points
@@ -302,7 +324,6 @@ curl -X POST http://localhost:8080/api/v1/admin/auth/register \
 - **Public Site:** http://localhost:5173
 - **Admin Login:** http://localhost:5173/admin/login
 - **Backend API:** http://localhost:8080/api/v1
-- **API Docs:** http://localhost:8080/swagger (if configured)
 
 ---
 
@@ -314,98 +335,134 @@ GET    /api/v1/products           # List all products (with optional ?category f
 GET    /api/v1/products/:id       # Get product details
 ```
 
+### Auth Endpoints
+```
+POST   /api/v1/auth/register      # Register new admin (dev only)
+POST   /api/v1/auth/login         # Admin login
+```
+
 ### Admin Endpoints (Protected)
 ```
-POST   /api/v1/admin/auth/login   # Admin login
 POST   /api/v1/admin/products     # Create product
 PUT    /api/v1/admin/products/:id # Update product
 DELETE /api/v1/admin/products/:id # Delete product (soft delete)
 ```
 
----
-
-## 🗺️ Roadmap
-
-### ✅ Phase 1 – MVP (Current)
-- [x] Admin authentication (JWT)
-- [x] Product CRUD
-- [x] Public catalog with filters
-- [x] Shopping cart (localStorage)
-- [x] WhatsApp checkout integration
-- [x] Custom orders via WhatsApp
-- [x] Admin CMS panel
-
-### 🚧 Phase 2 – Enhancement
-- [ ] Image upload to cloud storage (Cloudinary/S3)
-- [ ] Order history tracking in database
-- [ ] Email notifications (order confirmations)
-- [ ] Material inventory management
-- [ ] Production status tracking
-
-### 🔮 Phase 3 – Advanced
-- [ ] Payment gateway integration (optional)
-- [ ] Analytics dashboard
-- [ ] Customer reviews/ratings
-- [ ] SEO optimization
-- [ ] Progressive Web App (PWA)
+**Product Request Body:**
+```json
+{
+  "name": "Bolsa Rosa Pálido",
+  "description": "Bolsa artesanal em miçangas rosa",
+  "category": "adulto",
+  "format": "Retangular",
+  "height": 20,
+  "width": 15,
+  "depth": 5,
+  "production_time_days": 7,
+  "price": 89.90,
+  "image_urls": [
+    "https://res.cloudinary.com/...jpg",
+    "https://res.cloudinary.com/...jpg"
+  ]
+}
+```
 
 ---
 
 ## 🚀 Deployment
 
-### Backend (Railway/Render)
-1. Push code to GitHub
-2. Connect to Railway/Render
-3. Set environment variables
-4. Deploy with auto-build
+### Backend (Railway)
 
-### Frontend (Vercel/Netlify)
-1. Push code to GitHub
-2. Connect to Vercel/Netlify
-3. Set `VITE_API_BASE_URL` to production API
-4. Deploy with auto-build
+1. **Prepare repository:**
+   - Ensure `railway.json` and `Procfile` are in backend folder
+   - Update CORS in `main.go` to accept production URL
 
-### Database (Railway/Neon/Supabase)
-1. Create PostgreSQL instance
-2. Update backend .env with credentials
-3. Run migrations on first deploy
+2. **Deploy to Railway:**
+   ```bash
+   # Install Railway CLI
+   npm install -g @railway/cli
+   
+   # Login
+   railway login
+   
+   # Initialize project
+   cd backend
+   railway init
+   
+   # Set root directory
+   railway up --rootDirectory backend
+   ```
+
+3. **Configure environment variables:**
+   - `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` (auto-generated if using Railway PostgreSQL)
+   - `JWT_SECRET` = random 32+ char string
+   - `SERVER_PORT` = `8080`
+   - `WHATSAPP_NUMBER` = `5519997857685`
+   - `FRONTEND_URL` = your Vercel domain (e.g., `https://stelani.vercel.app`)
+
+4. **Add PostgreSQL:**
+   - Click "New" → "Database" → "Add PostgreSQL"
+   - Railway auto-connects DATABASE_URL
+
+### Frontend (Vercel)
+
+1. **Push code to GitHub**
+
+2. **Import to Vercel:**
+   - Go to vercel.com
+   - New Project → Import from GitHub
+   - Select Stelani repository
+   - Root Directory: `frontend`
+   - Framework Preset: Vite
+
+3. **Environment Variables:**
+   ```
+   VITE_API_BASE_URL=https://your-railway-backend.up.railway.app/api/v1
+   ```
+
+4. **Deploy:**
+   - Click Deploy
+   - Copy production URL
+
+5. **Update backend CORS:**
+   - Add Vercel URL to Railway `FRONTEND_URL` variable
+   - Redeploy backend
+
+### Post-Deployment
+
+1. **Test public site:** Browse products, add to cart
+2. **Test admin login:** Go to `/admin/login`
+3. **Create first product:** Upload images via Cloudinary
+4. **Test WhatsApp integration:** Complete checkout flow
+5. **Monitor logs:** Check Railway/Vercel dashboards
+
+---
+
+## 🎨 Design System
+
+- **Color Palette:**
+  - Primary: Lilás suave (#A855F7, #D8B4FE)
+  - Secondary: Rosa bebê (#F9A8D4)
+  - Background: Tons pastel (#FAFAFA)
+  - Accent: Gradientes roxo/rosa
+
+- **Typography:**
+  - Font: Nunito (Google Fonts)
+  - Headings: font-light (300)
+  - Body: font-normal (400)
+
+- **Components:**
+  - Rounded corners: rounded-lg, rounded-xl, rounded-full
+  - Shadows: shadow-sm, shadow-lg, shadow-2xl
+  - Animations: animate-float, animate-pulse-soft
 
 ---
 
 ## 📖 Documentation
 
-- [Complete Project Documentation](./docs/DOCUMENTATION.md) (ISO/IEC/IEEE 29148 compliant)
-- [API Reference](./docs/API.md)
-- [Architecture Diagram](./docs/ARCHITECTURE.md)
-- [Testing Guide](./docs/TESTING.md)
-
----
-
-## 📖 References
-
-- Clean Architecture (Robert C. Martin)
-- Go Style Guide – Effective Go
-- OWASP Security Guidelines
-- ISO/IEC/IEEE 29148 – Requirements Engineering
-- React & TypeScript Best Practices
-- Tailwind CSS & shadcn/ui Documentation
-- TanStack Query Documentation
-- GORM Documentation
-
----
-
-## 👥 Team
-
-**Developer:** Murilo-The-Dev
-**Project:** Stelani E-Commerce Platform  
-**Version:** 1.0 – December 2025  
-**License:** MIT
-
----
-
-## 📝 License
-
-MIT License - See [LICENSE](./LICENSE) for details.
+- API Reference: See endpoints section above
+- Component Documentation: See `frontend/src/components/`
+- Database Schema: See `backend/internal/domain/entities/`
 
 ---
 
