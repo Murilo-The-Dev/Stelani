@@ -4,13 +4,15 @@ import Footer from '@/components/layout/Footer';
 import Button from '@/components/common/Button';
 import ProductCard from '@/components/product/ProductCard';
 import { useProducts } from '@/hooks/useProducts';
-import { Sparkles } from 'lucide-react';
+import SEO from '@/components/common/SEO';
 
 export default function HomePage() {
   const { data: products, isLoading } = useProducts();
   const featuredProducts = products?.slice(0, 3) || [];
 
   return (
+    <>
+    <SEO />
     <main className="lilas min-h-screen bg-background flex flex-col">
       <Header />
 
@@ -101,5 +103,6 @@ export default function HomePage() {
 
       <Footer />
     </main>
+    </>
   );
 }

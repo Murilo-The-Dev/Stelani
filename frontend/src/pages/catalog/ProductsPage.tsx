@@ -4,12 +4,18 @@ import Footer from '@/components/layout/Footer';
 import ProductCard from '@/components/product/ProductCard';
 import Button from '@/components/common/Button';
 import { useProducts } from '@/hooks/useProducts';
+import SEO from '@/components/common/SEO';
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('todos');
   const { data: products, isLoading } = useProducts(selectedCategory);
 
   return (
+    <>
+      <SEO 
+        title="Produtos - Bolsas Artesanais"
+        description="Explore nossa coleção completa de bolsas artesanais em miçangas. Designs exclusivos para adultos e crianças."
+      />
     <main className="lilas min-h-screen bg-background flex flex-col">
       <Header />
 
@@ -61,5 +67,6 @@ export default function ProductsPage() {
 
       <Footer />
     </main>
+    </>
   );
 }

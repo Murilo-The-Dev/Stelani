@@ -4,6 +4,7 @@ import Footer from '@/components/layout/Footer';
 import Button from '@/components/common/Button';
 import { useCartStore } from '@/store/cartStore';
 import { Trash2, Plus, Minus } from 'lucide-react';
+import SEO from '@/components/common/SEO';
 
 export default function CartPage() {
   const navigate = useNavigate();
@@ -19,6 +20,11 @@ export default function CartPage() {
   };
 
   return (
+    <>
+      <SEO 
+        title="Carrinho de Compras"
+        description="Revise seus itens e finalize seu pedido de bolsas artesanais."
+      />
     <main className="lilas min-h-screen bg-background flex flex-col">
       <Header />
 
@@ -141,5 +147,6 @@ export default function CartPage() {
 
       <Footer />
     </main>
+    </>
   );
 }

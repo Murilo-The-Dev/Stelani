@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from '@/components/common/Button';
 import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
+import SEO from '@/components/common/SEO';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
@@ -14,6 +15,11 @@ export default function AdminLoginPage() {
   };
 
   return (
+     <>
+      <SEO 
+        title="Admin Login"
+        description="Acesso administrativo - Stelani"
+      />
     <div className="lilas min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
         <div>
@@ -89,5 +95,6 @@ export default function AdminLoginPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

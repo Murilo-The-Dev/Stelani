@@ -6,6 +6,7 @@ import Button from '@/components/common/Button';
 import { useProduct } from '@/hooks/useProducts';
 import { useCartStore } from '@/store/cartStore';
 import { ChevronLeft } from 'lucide-react';
+import SEO from '@/components/common/SEO';
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -38,6 +39,8 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
+      <>
+        <SEO title="Produto não encontrado" />
       <main className="min-h-screen bg-background flex flex-col">
         <Header />
         <div className="flex-1 flex items-center justify-center">
@@ -45,10 +48,17 @@ export default function ProductDetailPage() {
         </div>
         <Footer />
       </main>
+      </>
     );
   }
 
   return (
+    <>
+      <SEO 
+        title={product.name}
+        description={product.description}
+        image={product.images[0]?.image_url}
+      />
     <main className="lilas min-h-screen bg-background flex flex-col">
       <Header />
 
@@ -159,5 +169,6 @@ export default function ProductDetailPage() {
 
       <Footer />
     </main>
+    </>
   );
 }
