@@ -3,6 +3,7 @@ import Button from '@/components/common/Button';
 import { Product } from '@/services/api/endpoints/products';
 import { useCartStore } from '@/store/cartStore';
 import { ShoppingCart } from 'lucide-react';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 
 interface ProductCardProps {
   product: Product;
@@ -27,10 +28,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Image Container */}
         <div className="relative aspect-square bg-muted rounded-lg sm:rounded-xl overflow-hidden">
           <img
-            src={product.images[0]?.image_url || '/placeholder.jpg'}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
+  src={optimizeCloudinaryUrl(product.images[0]?.image_url || '/placeholder.jpg')}
+  alt={product.name}
+  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+  loading="lazy"
+/>
           
           {/* Quick add button - apenas desktop */}
           <div className="hidden sm:block absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">

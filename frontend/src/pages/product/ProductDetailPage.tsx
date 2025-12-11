@@ -7,6 +7,7 @@ import { useProduct } from '@/hooks/useProducts';
 import { useCartStore } from '@/store/cartStore';
 import { ChevronLeft } from 'lucide-react';
 import SEO from '@/components/common/SEO';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -76,7 +77,7 @@ export default function ProductDetailPage() {
     <div className="space-y-4">
       <div className="aspect-square bg-muted rounded-lg sm:rounded-xl overflow-hidden">
         <img
-          src={product.images[selectedImage]?.image_url || '/placeholder.jpg'}
+          src={optimizeCloudinaryUrl(product.images[selectedImage]?.image_url || '/placeholder.jpg')}
           alt={product.name}
           className="w-full h-full object-cover"
         />
