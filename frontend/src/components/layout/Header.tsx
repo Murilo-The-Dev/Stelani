@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Menu, X, Sparkles } from 'lucide-react';
+import { ShoppingBag, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Button from '@/components/common/Button';
 import { useCartStore } from '@/store/cartStore';
