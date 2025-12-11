@@ -4,6 +4,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Button from '@/components/common/Button';
 import {openWhatsApp } from '@/config/constants';
+import SEO from '@/components/common/SEO';
 
 export default function CustomOrderPage() {
   const navigate = useNavigate();
@@ -59,6 +60,11 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
   };
 
   return (
+     <>
+      <SEO 
+        title="Encomendar Personalizada"
+        description="Crie sua bolsa personalizada com as cores e design que você deseja. Artesanato exclusivo feito sob medida."
+      />
     <main className="lilas min-h-screen bg-background flex flex-col">
       <Header />
 
@@ -242,5 +248,6 @@ ${formData.quantity > 1 ? '(10% de desconto aplicado para múltiplas unidades)' 
 
       <Footer />
     </main>
+    </>
   );
 }

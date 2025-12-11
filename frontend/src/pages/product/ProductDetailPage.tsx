@@ -6,6 +6,8 @@ import Button from '@/components/common/Button';
 import { useProduct } from '@/hooks/useProducts';
 import { useCartStore } from '@/store/cartStore';
 import { ChevronLeft } from 'lucide-react';
+import SEO from '@/components/common/SEO';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinary';
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -38,6 +40,8 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
+      <>
+        <SEO title="Produto não encontrado" />
       <main className="min-h-screen bg-background flex flex-col">
         <Header />
         <div className="flex-1 flex items-center justify-center">
@@ -45,10 +49,17 @@ export default function ProductDetailPage() {
         </div>
         <Footer />
       </main>
+      </>
     );
   }
 
   return (
+    <>
+      <SEO 
+        title={product.name}
+        description={product.description}
+        image={product.images[0]?.image_url}
+      />
     <main className="lilas min-h-screen bg-background flex flex-col">
       <Header />
 
@@ -66,7 +77,7 @@ export default function ProductDetailPage() {
     <div className="space-y-4">
       <div className="aspect-square bg-muted rounded-lg sm:rounded-xl overflow-hidden">
         <img
-          src={product.images[selectedImage]?.image_url || '/placeholder.jpg'}
+          src={optimizeCloudinaryUrl(product.images[selectedImage]?.image_url || '/placeholder.jpg')}
           alt={product.name}
           className="w-full h-full object-cover"
         />
@@ -159,5 +170,6 @@ export default function ProductDetailPage() {
 
       <Footer />
     </main>
+    </>
   );
 }
